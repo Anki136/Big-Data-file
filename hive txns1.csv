@@ -1,0 +1,33 @@
+create table salesdata(
+txn_id bigint,
+txn_date string,
+cust_id bigint,
+amount double,
+category string,
+product string,
+city string,
+state string,
+spendby string)
+row format delimited
+fields terminated by ','
+stored as textfile;
+
+select product, count(*) as total from salesdata group by product order by total desc limit 10;
+
+set hive.exec.dynamic.partition.mode=nonstrict;
+set hive.exec.dynamic.partition=true;
+set hive.enforce.bucketing=true;
+
+create table salesdatabycat(
+txn_id bigint,
+txn_date string,
+cust_id bigint,
+amount double,
+product string,
+city string,
+state string,
+spendby string)
+partitioned by (category string)
+row format delimited
+fields terminated by ','
+stored as textfile;
