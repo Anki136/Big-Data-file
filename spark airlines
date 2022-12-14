@@ -13,10 +13,13 @@ df1=spark.read.format("csv").option("header",True).schema(schema1).load("hdfs://
 df1.registerTempTable("airlines")
 
 df2=spark.sql("select year, booked_seats from airlines order by Booked_seats desc")
+df2.show()
 
 df3=spark.sql("select Year, sum(Booked_seats*Average) as total from airlines group by year order by total desc")
+df3.show()
 
-df4=spark.sql("select Year, Quarter, sum(Booked_seats*Average) as total from airlines group by (year,quarter) order by total desc")
+df4=spark.sql("select sum(Booked_seats*Average) as total,year,quarter from airlines group by year,quarter order by total desc")
+df4.show()
 
 df2=df2.repartition(1)
 df3=df2.repartition(1)
