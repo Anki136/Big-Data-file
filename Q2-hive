@@ -1,0 +1,16 @@
+use training_432582;
+
+set hive.cli.print.current.db=true;
+
+create table customerdata(
+cust_id bigint,
+firstname string,
+lastname string,
+age int,
+profession string)
+row format delimited
+fields terminated by ','
+stored as textfile;
+
+select count(firstname) as customers, profession from customerdata group by profession;
+
